@@ -1,9 +1,8 @@
-class Pelicula():
-    def __init__(self, titulo, director, genero):
-        self.titulo = titulo
+class Pelicula:
+    def __init__(self, titulo, anio, director):
+        self.titulo = titulo       
+        self.anio = anio
         self.director = director
-        genero.genero = genero
-    
 
 
 
