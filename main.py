@@ -17,6 +17,8 @@ from pelicula import Pelicula
 import os
 
 
+
+
 def menu():   
 
     print('1 - Consultar un catalogo')
@@ -56,7 +58,7 @@ def catalogo():
                 print("No se ha creado ningún catálogo. Por favor, cree uno primero.")
             else:
                 titulo = input('Introduce el título de la película que quiere eliminar: ')
-                print(c.eliminar_catalogo())
+                print(c.eliminar_pelicula(titulo))
         elif option == '4':
             nombre_catalogo = input('Ingrese un género de películas para crear el catálogo: ')
             ruta_archivo = f'C:\\Lore\\python\\{nombre_catalogo}.txt'

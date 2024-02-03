@@ -1,19 +1,20 @@
 import os
 
-class CatalogoPelicula:   
+class CatalogoPelicula  :   
    
    def __init__(self, nombre_catalogo, ruta_archivo):
     
      self.nombre_catalogo = nombre_catalogo  
      self.ruta_archivo = ruta_archivo  
 
-   def catalogo_existente(ruta_archivo):    
-    return os.path.isfile(ruta_archivo)  
+   def hay_catalogo(ruta):
+    """Verifica si un archivo existe."""
+    return os.path.isfile(ruta) 
 
    def agregar_película(self, pelicula):
  
         try: 
-            f = open(self.ruta_archivo, 'a')
+            f = open(self.ruta_archivo, 'a', encoding='utf-8')
         except FileNotFoundError:
             return('¡El catálogo ' + self.nombre + ' no existe!\n')
         else:
@@ -28,19 +29,24 @@ class CatalogoPelicula:
    def crear_catalogo(self):
 
     if os.path.isfile(self.ruta_archivo):
-            print('El fichero ' + self.ruta_archivo + ' ya existe.)')
+            print(f'El catálogo'  + self.nombre_catalogo +  'ya existe.')
     else:      
                
-            f = open(self.ruta_archivo, 'w')
+            f = open(self.ruta_archivo, 'w', encoding='utf-8')
             f.close()
-            return 'Se ha creado el fichero.\n'
+            return f'Se ha creado el catálogo {self.nombre_catalogo} ,  en la ruta {self.ruta_archivo}.\n'
   
    
 
    def listar_peliculas(self):
-        f = open(self.ruta_archivo, 'r')
-        print(f.read())
-        f.close()
+    
+    if os.path.isfile(self.ruta_archivo):
+        f = open(self.ruta_archivo, 'r',  encoding='utf-8')
+        pelis = f.readlines()
+        resultado = ''.join(pelis)
+        
+        return resultado
+   
         # return [pelicula.titulo for pelicula in self.peliculas]
     # def get_phone(file, client):
     # """Devuelve el teléfono de un cliente de un fichero dado."""
@@ -70,7 +76,7 @@ class CatalogoPelicula:
             catalogo = f.readlines()
             f.close()
             catalogo = dict([tuple(line.split(',')) for line in catalogo])
-            if titulo in self.catalogo:
+            if self.pelicula.titulo in self.catalogo:
                 del self.catalogo[titulo]
                 f = open(self.ruta_archivo, 'w')
                 for titulo, anio, director in catalogo.items():
