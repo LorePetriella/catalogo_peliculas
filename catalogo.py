@@ -13,23 +13,31 @@ class CatalogoPelicula  :
 
    def agregar_película(self, pelicula):
  
-        try: 
-            f = open(self.ruta_archivo, 'a', encoding='utf-8')
-        except FileNotFoundError:
-            return('¡El catálogo ' + self.nombre + ' no existe!\n')
-        else:
-            f.write(pelicula.titulo + ', ' + pelicula.anio + ' de ' + pelicula.director + '\n')
-            f.close()
-            return('La pelicula se ha añadido.\n')
+        # try: 
+        #     f = open(self.ruta_archivo, 'a', encoding='utf-8')
+        # except FileNotFoundError:
+        #     return('¡El catálogo ' + self.nombre + ' no existe!\n')
+        # else:
+        #     f.write(pelicula.titulo + ', ' + pelicula.anio + ' de ' + pelicula.director + '\n')
+        #     f.close()
+        #     return('La pelicula se ha añadido.\n')
 
-
+    try:
+            with open(self.ruta_archivo, 'a', encoding='utf-8') as f:
+                f.write(f'{pelicula.titulo}, {pelicula.anio}, {pelicula.director}\n')
+            return 'La película se ha añadido.\n'
+    except FileNotFoundError:
+            return f'¡El catálogo {self.ruta_archivo} no existe!\n'
+    except Exception as e:
+            return f'Error al intentar agregar la película: {e}\n'
 
 
    
    def crear_catalogo(self):
 
     if os.path.isfile(self.ruta_archivo):
-            print(f'El catálogo'  + self.nombre_catalogo +  'ya existe.')
+            # print(f'El catálogo'  + self.nombre_catalogo +  'ya existe.')
+            return f'El catálogo'  + self.nombre_catalogo +  'ya existe.'
     else:      
                
             f = open(self.ruta_archivo, 'w', encoding='utf-8')
@@ -40,49 +48,50 @@ class CatalogoPelicula  :
 
    def listar_peliculas(self):
     
-    if os.path.isfile(self.ruta_archivo):
-        f = open(self.ruta_archivo, 'r',  encoding='utf-8')
-        pelis = f.readlines()
-        resultado = ''.join(pelis)
+    if os.path.isfile(self.ruta_archivo): 
         
-        return resultado
+        try:
+            with open(self.ruta_archivo, 'r', encoding='utf-8') as f:
+                pelis = f.readlines()
+
+            if not pelis:
+                return "No hay películas en el catálogo.\n"
+
+            resultado = ''.join(pelis)
+            return resultado
+        except FileNotFoundError:
+            return "Error: No existen películas para mostrar.\n"
+        except Exception as e:
+            return f'Error al intentar listar las películas: {e}\n'
    
-        # return [pelicula.titulo for pelicula in self.peliculas]
-    # def get_phone(file, client):
-    # """Devuelve el teléfono de un cliente de un fichero dado."""
-    # if file_exists(file):
-    #     with open(file, 'r') as f:
-    #         for line in f:
-    #             name, phone = line.strip().split(',')
-    #             if name == client:
-    #                 return phone
-    #     return f"No se encontró el teléfono para el cliente '{client}'."
-    # else:
-    #     return f"Error: El fichero '{file}' no existe."
+
    def eliminar_catalogo(self):
         os.remove(self.ruta_archivo)
         return 'Se ha borrado el catálogo'
 
 
 
-   def eliminar_pelicula(self, titulo):
-       
+   def eliminar_pelicula(self, titulo):       
 
-        try: 
-            f = open(self.ruta_archivo, 'r')
+       
+        try:
+            with open(self.ruta_archivo, 'r', encoding='utf-8') as f:
+                catalogo = f.readlines()
+
+            with open(self.ruta_archivo, 'w', encoding='utf-8') as f:
+                pelicula_encontrada = False
+                for linea in catalogo:
+                    pelicula_info = linea.strip().split(', ') 
+                    if len(pelicula_info) == 3 and titulo.lower() in pelicula_info[0].lower():
+                        pelicula_encontrada = True
+                        continue
+                    f.write(linea)
+
+                if not pelicula_encontrada:
+                    return '¡La película no existe en el catálogo!\n'
+
+            return f'¡La película "{titulo}" se ha borrado!\n'
         except FileNotFoundError:
-            return('¡El catálogo ' + self.ruta_archivo + ' no existe!\n')
-        else:
-            catalogo = f.readlines()
-            f.close()
-            catalogo = dict([tuple(line.split(',')) for line in catalogo])
-            if self.pelicula.titulo in self.catalogo:
-                del self.catalogo[titulo]
-                f = open(self.ruta_archivo, 'w')
-                for titulo, anio, director in catalogo.items():
-                    f.write(titulo + ',' + anio + 'de' + director)
-                f.close()
-                return ('¡La película se ha borrado!\n')
-            else:
-                return('¡La película ' + titulo + ' no existe!\n')
-    
+            return f'¡El catálogo {self.ruta_archivo} no existe!\n'
+        except Exception as e:
+            return f'Error al intentar eliminar la película: {e}\n'
