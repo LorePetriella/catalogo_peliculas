@@ -13,15 +13,7 @@ class CatalogoPelicula  :
 
    def agregar_película(self, pelicula):
  
-        # try: 
-        #     f = open(self.ruta_archivo, 'a', encoding='utf-8')
-        # except FileNotFoundError:
-        #     return('¡El catálogo ' + self.nombre + ' no existe!\n')
-        # else:
-        #     f.write(pelicula.titulo + ', ' + pelicula.anio + ' de ' + pelicula.director + '\n')
-        #     f.close()
-        #     return('La pelicula se ha añadido.\n')
-
+        
     try:
             with open(self.ruta_archivo, 'a', encoding='utf-8') as f:
                 f.write(f'{pelicula.titulo}, {pelicula.anio}, {pelicula.director}\n')
@@ -36,14 +28,14 @@ class CatalogoPelicula  :
    def crear_catalogo(self):
 
     if os.path.isfile(self.ruta_archivo):
-            # print(f'El catálogo'  + self.nombre_catalogo +  'ya existe.')
-            return f'El catálogo'  + self.nombre_catalogo +  'ya existe.'
+            
+            return f'El catálogo ' + self.nombre_catalogo +  'ya existe.'
     else:      
                
             f = open(self.ruta_archivo, 'w', encoding='utf-8')
             f.close()
-            return f'Se ha creado el catálogo {self.nombre_catalogo} ,  en la ruta {self.ruta_archivo}.\n'
-  
+            return f'Se ha creado el catálogo {self.nombre_catalogo},  en la ruta {self.ruta_archivo}.\n'
+    
    
 
    def listar_peliculas(self):
@@ -66,9 +58,15 @@ class CatalogoPelicula  :
    
 
    def eliminar_catalogo(self):
+        # os.remove(self.ruta_archivo)
+        # return 'El catálogo actual se ha borrado'
+    try:
         os.remove(self.ruta_archivo)
-        return 'Se ha borrado el catálogo'
-
+        return f'El catálogo "{self.nombre_catalogo}" se ha borrado.\n'
+    except FileNotFoundError:
+        return f'El catálogo "{self.nombre_catalogo}" no existe.\n'
+    except Exception as e:
+        return f'Error al intentar eliminar el catálogo: {e}\n'
 
 
    def eliminar_pelicula(self, titulo):       
