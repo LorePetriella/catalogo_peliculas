@@ -52,7 +52,8 @@ class CatalogoPelicula  :
                 pelicula_encontrada = False
                 for linea in catalogo:
                     pelicula_info = linea.strip().split(', ') 
-                    if len(pelicula_info) == 3 and titulo.lower() in pelicula_info[0].lower():
+                 
+                    if titulo.lower() in [info.lower() for info in pelicula_info]:
                         pelicula_encontrada = True
                         continue
                     f.write(linea)

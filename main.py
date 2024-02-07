@@ -18,6 +18,9 @@ def menu():
     option = input('Introduzca el número de la opción deseada: ')
     return option
 
+def input_lower(prompt):
+    return input(prompt).lower()
+
 def catalogo():  
    
     nombre_catalogo = ""
@@ -28,7 +31,7 @@ def catalogo():
         option = menu()
 
         if option == '1':
-            nombre_catalogo = input('Por favor introduzca el nombre del catálogo que quiere consultar: ')
+            nombre_catalogo = input_lower('Por favor introduzca el nombre del catálogo que quiere consultar: ')
             ruta_archivo = f'C:\\Lore\\python\\{nombre_catalogo}.txt'
             c = CatalogoPelicula(nombre_catalogo, ruta_archivo)
 
@@ -43,15 +46,15 @@ def catalogo():
                 
         elif option == '2':        
 
-          nombre_catalogo = input('Introduce el nombre del catálogo en el que deseas agregar la película: ')
+          nombre_catalogo = input_lower('Introduce el nombre del catálogo en el que deseas agregar la película: ')
           ruta_archivo = f'C:\\Lore\\python\\{nombre_catalogo}.txt'
     
           c = CatalogoPelicula(nombre_catalogo, ruta_archivo)
 
           if os.path.isfile(c.ruta_archivo):
-            titulo = input('Introduce el título de la película: ')
+            titulo = input_lower('Introduce el título de la película: ')
             anio = input('Introduce el año del estreno: ')
-            director = input('Ingrese el nombre de su director: ')
+            director = input_lower('Ingrese el nombre de su director: ')
             peli1 = Pelicula(titulo, anio, director)
             print(c.agregar_película(peli1))
           else:
@@ -59,19 +62,19 @@ def catalogo():
         
         
         elif option == '3':
-            nombre_catalogo_a_editar = input('Por favor indique a qué catálogo pertenece la película que quiere eliminar: ')
+            nombre_catalogo_a_editar = input_lower('Por favor indique a qué catálogo pertenece la película que quiere eliminar: ')
             ruta_archivo = f'C:\\Lore\\python\\{nombre_catalogo_a_editar}.txt'
             c = CatalogoPelicula(nombre_catalogo_a_editar, ruta_archivo)
 
             if os.path.isfile(c.ruta_archivo):
-               titulo = input('Introduce el título de la película que quieres eliminar: ')
+               titulo = input_lower('Introduce el título de la película que quieres eliminar: ')
                print(c.eliminar_pelicula(titulo))
             else:
                print(f'No se ha encontrado el catálogo "{nombre_catalogo_a_editar}". Por favor, verifique el nombre y vuelva a intentarlo.')
 
         elif option == '4':
         
-            nombre_catalogo = input('Ingrese un género de películas para crear el catálogo: ')
+            nombre_catalogo = input_lower('Ingrese un género de películas para crear el catálogo: ')
             ruta_archivo = f'C:\\Lore\\python\\{nombre_catalogo}.txt'
             nuevo_catalogo = CatalogoPelicula(nombre_catalogo, ruta_archivo)  # Crear una nueva instancia para el nuevo catálogo
             print(nuevo_catalogo.crear_catalogo())
@@ -79,7 +82,7 @@ def catalogo():
 
         elif option == '5':
            
-            nombre_catalogo = input('Ingrese el nombre del catálogo que quiere eliminar: ')
+            nombre_catalogo = input_lower('Ingrese el nombre del catálogo que quiere eliminar: ')
             ruta_archivo = f'C:\\Lore\\python\\{nombre_catalogo}.txt'
             
             c = CatalogoPelicula(nombre_catalogo, ruta_archivo)
