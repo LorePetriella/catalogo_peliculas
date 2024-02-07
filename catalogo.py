@@ -8,35 +8,8 @@ class CatalogoPelicula  :
      self.ruta_archivo = ruta_archivo  
 
    def hay_catalogo(ruta):
-    """Verifica si un archivo existe."""
-    return os.path.isfile(ruta) 
-
-   def agregar_película(self, pelicula):
- 
-        
-    try:
-            with open(self.ruta_archivo, 'a', encoding='utf-8') as f:
-                f.write(f'{pelicula.titulo}, {pelicula.anio}, {pelicula.director}\n')
-            return 'La película se ha añadido.\n'
-    except FileNotFoundError:
-            return f'¡El catálogo {self.ruta_archivo} no existe!\n'
-    except Exception as e:
-            return f'Error al intentar agregar la película: {e}\n'
-
-
-   
-   def crear_catalogo(self):
-
-    if os.path.isfile(self.ruta_archivo):
-            
-            return f'El catálogo ' + self.nombre_catalogo +  'ya existe.'
-    else:      
-               
-            f = open(self.ruta_archivo, 'w', encoding='utf-8')
-            f.close()
-            return f'Se ha creado el catálogo {self.nombre_catalogo},  en la ruta {self.ruta_archivo}.\n'
+       return os.path.isfile(ruta) 
     
-   
 
    def listar_peliculas(self):
     
@@ -54,23 +27,22 @@ class CatalogoPelicula  :
         except FileNotFoundError:
             return "Error: No existen películas para mostrar.\n"
         except Exception as e:
-            return f'Error al intentar listar las películas: {e}\n'
-   
+            return f'Error al intentar listar las películas: {e}\n' 
+        
 
-   def eliminar_catalogo(self):
-        # os.remove(self.ruta_archivo)
-        # return 'El catálogo actual se ha borrado'
+   def agregar_película(self, pelicula):
+ 
+        
     try:
-        os.remove(self.ruta_archivo)
-        return f'El catálogo "{self.nombre_catalogo}" se ha borrado.\n'
+            with open(self.ruta_archivo, 'a', encoding='utf-8') as f:
+                f.write(f'{pelicula.titulo}, {pelicula.anio}, {pelicula.director}\n')
+            return 'La película se ha añadido.\n'
     except FileNotFoundError:
-        return f'El catálogo "{self.nombre_catalogo}" no existe.\n'
+            return f'¡El catálogo {self.ruta_archivo} no existe!\n'
     except Exception as e:
-        return f'Error al intentar eliminar el catálogo: {e}\n'
+            return f'Error al intentar agregar la película: {e}\n'
 
-
-   def eliminar_pelicula(self, titulo):       
-
+   def eliminar_pelicula(self, titulo):      
        
         try:
             with open(self.ruta_archivo, 'r', encoding='utf-8') as f:
@@ -90,6 +62,40 @@ class CatalogoPelicula  :
 
             return f'¡La película "{titulo}" se ha borrado!\n'
         except FileNotFoundError:
-            return f'¡El catálogo {self.ruta_archivo} no existe!\n'
+            return f'¡La película "{titulo}" no existe!\n'
         except Exception as e:
             return f'Error al intentar eliminar la película: {e}\n'
+        
+
+   def crear_catalogo(self):
+
+    if os.path.isfile(self.ruta_archivo):
+            
+            return f'El catálogo ' + self.nombre_catalogo +  ' ya existe.'
+    else:      
+               
+            f = open(self.ruta_archivo, 'w', encoding='utf-8')
+            f.close()
+            return f'Se ha creado el catálogo {self.nombre_catalogo},  en la ruta {self.ruta_archivo}.\n'
+
+
+
+   def eliminar_catalogo(self):
+       
+    try:
+        os.remove(self.ruta_archivo)
+        return f'El catálogo "{self.nombre_catalogo}" se ha borrado.\n'
+    except FileNotFoundError:
+        return f'El catálogo "{self.nombre_catalogo}" no existe.\n'
+    except Exception as e:
+        return f'Error al intentar eliminar el catálogo: {e}\n'
+    
+
+   def listar_catalogos(self):
+        ruta_directorio = "C:\\Lore\\python\\" 
+        catalogos = [archivo.replace('.txt', '') for archivo in os.listdir(ruta_directorio) if archivo.endswith('.txt')]
+        if catalogos:
+            print("Catálogos disponibles:")
+            for catalogo in catalogos:
+                 print("- ", catalogo)
+        else: print("No hay Catálogos disponibles. Por favor cree uno.")     
